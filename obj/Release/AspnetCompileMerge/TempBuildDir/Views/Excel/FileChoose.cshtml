@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "FileChoose";
+}
+<h2>Please choose suitable Excel file</h2>
+<hr id="chooseHr"/>
+<div id="checkDiv"></div>
+@using (Html.BeginForm("FileReceiver", "Excel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <input id="browseBtn" class="button" type="file" name="FileButton" />
+        <input class="bodyBtn" id="uploadBtn" type="submit" value="Upload" />
+    </div>
+}
+

@@ -1,0 +1,19 @@
+﻿@model RekrutTask.Models.Person
+
+<div class="personFrame">
+    <h4>@Model.FirstName @Model.Surname</h4>
+    <p>Phone: @Model.PhoneNumber</p>
+
+    @using (@Html.BeginForm("PersonFullInfo", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(m => m.Id);
+        @Html.HiddenFor(m => m.FirstName);
+        @Html.HiddenFor(m => m.Surname);
+        @Html.HiddenFor(m => m.NationalIdentificationNumber);
+        @Html.HiddenFor(m => m.AddressId);
+        @Html.HiddenFor(m => m.PhoneNumber);
+        @Html.HiddenFor(m => m.PhoneNumber2);
+        <input class="fullInfoBtn bodyBtn", type="submit" , value="Full info">
+    }
+    <hr class="personListHr">
+</div>  

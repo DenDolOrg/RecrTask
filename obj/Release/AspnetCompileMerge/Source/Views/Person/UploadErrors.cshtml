@@ -1,0 +1,32 @@
+﻿@model IEnumerable<RekrutTask.Models.Person>
+
+@{
+    ViewBag.Title = "Upload Errors";
+}
+
+@if (Model != null && Model.Count() != 0)
+{
+    <h2>Failed adding these people, because of PESEL (bad format or that PESEL already exist)</h2>
+
+
+    <table id="errorTable">
+        <tr id="errorHeader">
+            <th>Name</th>
+            <th>Surname</th>
+            <th>PESEL</th>
+        </tr>
+        @foreach (var p in Model)
+        {
+            Html.RenderPartial("InvalidPersonInfo", p);
+        }
+    </table>
+}
+else
+{
+    <h3>No errors yet.</h3>
+}
+
+    @using (@Html.BeginForm("PersonList", "Person"))
+    {
+    <input id="errorToTableBtn" class="bodyBtn" type="submit" , value="Got it! Go to the List">
+    }

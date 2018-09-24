@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RekrutDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StreetName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StreetNumber" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FlatNumber" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="PostCode" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PostOfficeCity" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorrespondenceStreetName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorrespondenceStreetNumber" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorrespondenceFlatNumber" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="CorrespondencePostCode" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorrespondencePostOfficeCity" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="People" Relationship="Self.constr_fk_Person_Address" FromRole="Address" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="Agreement">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Number" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <Property Name="PersonId" Type="Int32" />
+    <Property Name="FinancialStateId" Type="Int32" />
+    <NavigationProperty Name="FinancialState" Relationship="Self.constr_fk_Agreement_FinancialState" FromRole="Agreement" ToRole="FinancialState" />
+    <NavigationProperty Name="Person" Relationship="Self.constr_fk_Agreement_Person" FromRole="Agreement" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="FinancialState">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OutstandingLiabilities" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Interests" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="PenaltyInterests" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Fees" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="CourtFees" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="RepresentationCourtFees" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="VindicationCosts" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="RepresentationVindicationCosts" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Agreements" Relationship="Self.constr_fk_Agreement_FinancialState" FromRole="FinancialState" ToRole="Agreement" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SecondName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Surname" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NationalIdentificationNumber" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AddressId" Type="Int32" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNumber2" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Address" Relationship="Self.constr_fk_Person_Address" FromRole="Person" ToRole="Address" />
+    <NavigationProperty Name="Agreements" Relationship="Self.constr_fk_Agreement_Person" FromRole="Person" ToRole="Agreement" />
+  </EntityType>
+  <Association Name="constr_fk_Person_Address">
+    <End Role="Address" Type="Self.Address" Multiplicity="1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="AddressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="constr_fk_Agreement_FinancialState">
+    <End Role="FinancialState" Type="Self.FinancialState" Multiplicity="0..1" />
+    <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FinancialState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Agreement">
+        <PropertyRef Name="FinancialStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="constr_fk_Agreement_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Agreement">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="RekrutDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="Self.Address" />
+    <EntitySet Name="Agreements" EntityType="Self.Agreement" />
+    <EntitySet Name="FinancialStates" EntityType="Self.FinancialState" />
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <AssociationSet Name="constr_fk_Person_Address" Association="Self.constr_fk_Person_Address">
+      <End Role="Address" EntitySet="Addresses" />
+      <End Role="Person" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="constr_fk_Agreement_FinancialState" Association="Self.constr_fk_Agreement_FinancialState">
+      <End Role="FinancialState" EntitySet="FinancialStates" />
+      <End Role="Agreement" EntitySet="Agreements" />
+    </AssociationSet>
+    <AssociationSet Name="constr_fk_Agreement_Person" Association="Self.constr_fk_Agreement_Person">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Agreement" EntitySet="Agreements" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

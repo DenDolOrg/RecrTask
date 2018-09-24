@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="RekrutDBEntities-Web.config Connection String" description="RekrutDBEntities Строка подключения в web.config, используемая приложением для доступа к базе данных." defaultValue="metadata=res://*/Models.Model.csdl|res://*/Models.Model.ssdl|res://*/Models.Model.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=SQL6005.site4now.net;initial catalog=DB_A3F3E7_RekrutDB;persist security info=True;user id=DB_A3F3E7_RekrutDB_admin;password=10dfhtybrsd;replication=False;context connection=False;transparentnetworkipresolution=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\RecrutTask\\RekrutTask\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='RekrutDBEntities']/@connectionString" />
+  </parameter>
+</parameters>

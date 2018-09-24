@@ -1,0 +1,861 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RekrutTask</name>
+    </assembly>
+    <members>
+        <member name="T:RekrutTask.BundleConfig">
+            <summary>
+            Bundle configuration class.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.BundleConfig.RegisterBundles(System.Web.Optimization.BundleCollection)">
+            <summary>
+            Adding bundlings for JS and(or) CSS files. Invoked from Global.asax.
+            </summary>
+            <param name="bundles">Default bundle collection of <see cref="T:System.Web.Optimization.Bundle" /> from <see cref="P:System.Web.Optimization.BundleTable.Bundles" />.</param>
+        </member>
+        <member name="T:RekrutTask.FilterConfig">
+            <summary>
+            Filter configuration class.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.FilterConfig.RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection)">
+            <summary>
+            Global filters registration. Invoked from Global.asax.
+            </summary>
+            <param name="filters">Standard basic filters from <see cref="P:System.Web.Mvc.GlobalFilters.Filters" /></param>
+        </member>
+        <member name="T:RekrutTask.RouteConfig">
+            <summary>
+            Route configuration class.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.RouteConfig.RegisterRoutes(System.Web.Routing.RouteCollection)">
+            <summary>
+            Routes registration. Invoked from Global.asax&gt;.
+            </summary>
+            <param name="routes">Empty routes collection from <see cref="P:System.Web.Routing.RouteTable.Routes" />.</param>
+        </member>
+        <member name="T:RekrutTask.Controllers.ExcelController">
+            <summary>
+            Controller for uploading and handling Excel file.
+            </summary>
+            <seealso cref="T:System.Web.Mvc.Controller" />
+        </member>
+        <member name="F:RekrutTask.Controllers.ExcelController._repository">
+            <summary>
+            Database data storage, type of <see cref="T:RekrutTask.Models.Abstract.IFullInfoRepository" />.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Controllers.ExcelController" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Controllers.ExcelController.#ctor(RekrutTask.Models.Abstract.IFullInfoRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Controllers.ExcelController" /> class.
+            </summary>
+            <param name="repository">Received database data</param>
+        </member>
+        <member name="M:RekrutTask.Controllers.ExcelController.FileChoose">
+            <summary>
+            Action of <see cref="T:RekrutTask.Controllers.ExcelController" />.
+            Redirects to the appropriate page, where user can choose Excel file for upload.
+            </summary>
+            <returns>Returns a view with the name of "<c>Views/Excel/FileChoose.cshtml</c>".</returns>
+        </member>
+        <member name="M:RekrutTask.Controllers.ExcelController.FileReceiver">
+            <summary>
+            Action of <see cref="T:RekrutTask.Controllers.ExcelController" />.
+            <list type="destination"><item><term>Receives chosen by user Excel file.</term></item><item><term>Writes to the database suitable elements.</term></item><item><term>Creates the list of unsuitable elements.</term></item><item><term>Creates <see cref="T:RekrutTask.ServiceWSDL.Person" /> for every <see cref="T:RekrutTask.Models.Person" /> in database and invokes <c>DoImport()</c> function for each of them</term></item><item><term>Depending on writing to database result, redirects on the appropriate page.</term></item></list>
+            </summary>
+            <returns><list type="results">
+              <listheader>
+                <term>Context</term>
+                <term>Сause</term>
+              </listheader>
+              <item>
+                <term>Failed load file page (<c>Views/Excel/InvalidExcelFile.cshtml</c>).</term>
+                <term>Chosen Excel file contains wrong data to upload.</term>
+              </item>
+              <item>
+                <term>Error list page (<c>Views/Person/UploadErrors.cshtml</c>).</term>
+                <term>One or more <see cref="T:RekrutTask.Models.Person" /> from Excel file has invalid parameter <see cref="P:RekrutTask.Models.Person.NationalIdentificationNumber" />.</term>
+              </item>
+            </list>
+            <item>
+              <term>Person list page (<c>Views/Person/PersonList.cshtml</c>).</term>
+              <term>No upload errors detected.</term>
+            </item></returns>
+        </member>
+        <member name="T:RekrutTask.Controllers.HomeController">
+            <summary>
+            Controller for home page
+            </summary>
+            <seealso cref="T:System.Web.Mvc.Controller" />
+        </member>
+        <member name="M:RekrutTask.Controllers.HomeController.Index">
+            <summary>
+            Action of <see cref="T:RekrutTask.Controllers.HomeController" />.
+            Redirects to home page.
+            </summary>
+            <returns>Returns view, with the name of "<c>Views/Person/PersonFull info.cshtml</c>"</returns>
+        </member>
+        <member name="T:RekrutTask.Controllers.PersonController">
+            <summary>
+            Controller for creating different view models of Person
+            </summary>
+            <seealso cref="T:System.Web.Mvc.Controller" />
+        </member>
+        <member name="F:RekrutTask.Controllers.PersonController._repository">
+            <summary>
+            Database data storage, type of <see cref="T:RekrutTask.Models.Abstract.IFullInfoRepository" />.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Controllers.PersonController" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Controllers.PersonController.#ctor(RekrutTask.Models.Abstract.IFullInfoRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Controllers.PersonController" /> class.
+            </summary>
+            <param name="repository">Received database data.</param>
+        </member>
+        <member name="M:RekrutTask.Controllers.PersonController.PersonFullInfo(RekrutTask.Models.Person,System.String)">
+            <summary>
+            Action of <see cref="T:RekrutTask.Controllers.PersonController" />.
+            <list type="destination"><item><term>Creates a special view model <see cref="T:RekrutTask.Models.FullInfoViewModel" /></term></item><item><term>Redirects to <see cref="T:RekrutTask.Models.Person" /> full information page with created view model.</term></item></list>
+            </summary>
+            <param name="currPerson">Requested Person, about whom to show full information.
+            Creating automatically, by model binding mechanism, using relevant fields of <see cref="T:RekrutTask.Models.Person" />.</param>
+            <param name="fullName">Full name of clicked Person</param>
+            <returns>Returns a view with the name of "<c>Views/Person/PersonFull info.cshtml</c>", filled with <see cref="T:RekrutTask.Models.FullInfoViewModel" /> data.</returns>
+        </member>
+        <member name="M:RekrutTask.Controllers.PersonController.PersonList">
+            <summary>
+            Action of <see cref="T:RekrutTask.Controllers.PersonController" />.
+            Redirects to <see cref="T:RekrutTask.Models.Person" /> list page.
+            </summary>
+            <returns>Returns a view with the name of "<c>Views/Person/PersonList.cshtml</c>"</returns>
+        </member>
+        <member name="M:RekrutTask.Controllers.PersonController.UploadErrors">
+            <summary>
+            Action of <see cref="T:RekrutTask.Controllers.PersonController" />.
+            Redirects to uploading errors list page.
+            </summary>
+            <returns>Returns a view with the name of "<c>Views/PersonUploadErrors.cshtml</c>"</returns>
+        </member>
+        <member name="M:RekrutTask.Controllers.PersonController.CreateFullAddress(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates full address string for full <see cref="T:RekrutTask.Models.Person" /> information page.
+            </summary>
+            <param name="city">City.</param>
+            <param name="street">Street.</param>
+            <param name="strNumber">Street number.</param>
+            <param name="flatNumber">Flat number.</param>
+            <param name="postCode">Postal code.</param>
+            <returns>Returns complete full address string</returns>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Controllers.PersonController" />.</permission>
+        </member>
+        <member name="T:RekrutTask.Infrastructure.ExcelHelper">
+            <summary>
+            Class, which contains processing methods for Excel file.
+            </summary>
+        </member>
+        <member name="F:RekrutTask.Infrastructure.ExcelHelper._repository">
+            <summary>
+            Database data storage, type of <see cref="T:RekrutTask.Models.Abstract.IFullInfoRepository" />.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="F:RekrutTask.Infrastructure.ExcelHelper.sheetName">
+            <summary>
+            First sheet name of chosen Excel file (assumed, that data for upload, locates at first sheet).
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.#ctor(RekrutTask.Models.Abstract.IFullInfoRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Infrastructure.ExcelHelper" /> class.
+            </summary>
+            <param name="repository">Received database data.</param>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.GetSheetName(System.Data.OleDb.OleDbConnection)">
+            <summary>
+            Determines the name of first sheet in chosen Excel file.
+            </summary>
+            <param name="connection">Connection object to Excel file.</param>
+            <returns>System.String.</returns>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.GetAddressTableData(System.Data.OleDb.OleDbConnection)">
+            <summary>
+            Gets list of <see cref="T:RekrutTask.Models.Address" /> from Excel file;
+            </summary>
+            <param name="connection">Connection object to Excel file.</param>
+            <returns>Returns <see cref="T:RekrutTask.Models.Address" /> list, type of <see cref="T:System.Collections.Generic.IList`1" /></returns>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.GetAgreementTableData(System.Data.OleDb.OleDbConnection)">
+            <summary>
+            Gets list of <see cref="T:RekrutTask.Models.Agreement" /> from Excel file;
+            </summary>
+            <param name="connection">Connection object to Excel file.</param>
+            <returns>Returns <see cref="T:RekrutTask.Models.Agreement" /> list, type of <see cref="T:System.Collections.Generic.IList`1" /></returns>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.GetFinancialStateTableData(System.Data.OleDb.OleDbConnection)">
+            <summary>
+            Gets list of <see cref="T:RekrutTask.Models.FinancialState" /> from Excel file;
+            </summary>
+            <param name="connection">Connection object to Excel file.</param>
+            <returns>Returns <see cref="T:RekrutTask.Models.FinancialState" /> list, type of <see cref="T:System.Collections.Generic.IList`1" /></returns>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.GetPersonTableData(System.Data.OleDb.OleDbConnection)">
+            <summary>
+            Gets list of <see cref="T:RekrutTask.Models.Person" /> from Excel file;
+            </summary>
+            <param name="connection">Connection object to Excel file.</param>
+            <returns>Returns <see cref="T:RekrutTask.Models.Person" /> list, type of <see cref="T:System.Collections.Generic.IList`1" /></returns>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.IsAvailableForUpload(System.Collections.Generic.IList{RekrutTask.Models.Person},RekrutTask.Models.Person)">
+            <summary>
+            Determines, whether <see cref="P:RekrutTask.Models.Person.NationalIdentificationNumber" /> from <see cref="T:System.Collections.Generic.IList`1" /> is valid
+            </summary>
+            <param name="personList">Full list of <see cref="T:RekrutTask.Models.Person" /></param>
+            <param name="currentPerson"><see cref="T:RekrutTask.Models.Person" /> to check.</param>
+            <returns><c>true</c> if <see cref="P:RekrutTask.Models.Person.NationalIdentificationNumber" /> is unique in database and list, also it should be a 11 digit number; otherwise, <c>false</c>.</returns>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Infrastructure.ExcelHelper" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ExcelHelper.UploadToDBExcelFile(System.String)">
+            <summary>
+            Uploads to database Excel file.
+            </summary>
+            <param name="pathName">Path, to temporary saved on server, copy of chosen Excel file.</param>
+            <returns>Returns the list of <see cref="T:RekrutTask.Models.Person" />, whose <see cref="P:RekrutTask.Models.Person.NationalIdentificationNumber" /> is not valid.</returns>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Infrastructure.NinjectControllerFactory">
+            <summary>
+            Class for introduction Ninject DI container
+            </summary>
+            <seealso cref="T:System.Web.Mvc.DefaultControllerFactory" />
+        </member>
+        <member name="F:RekrutTask.Infrastructure.NinjectControllerFactory.ninjectKernel">
+            <summary>
+            Ninject kernel.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet">Available only inside class <see cref="T:RekrutTask.Infrastructure.NinjectControllerFactory" />.</permission>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.NinjectControllerFactory.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Infrastructure.NinjectControllerFactory" /> class.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.NinjectControllerFactory.GetControllerInstance(System.Web.Routing.RequestContext,System.Type)">
+            <summary>
+            Извлекает экземпляр контроллера для заданного контекста запроса и типа контроллера.
+            </summary>
+            <param name="requestContext">Контекст HTTP-запроса, включающий в себя контекст HTTP и данные маршрута.</param>
+            <param name="controllerType">Тип контроллера.</param>
+            <returns>Экземпляр контроллера.</returns>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.NinjectControllerFactory.AddBindings">
+            <summary>
+            Adds bindings to Ninject DI container
+            </summary>
+        </member>
+        <member name="T:RekrutTask.Infrastructure.ServiceHelper">
+            <summary>
+            Class, which plays container role for method <c>DoImport()</c>
+            </summary>
+        </member>
+        <member name="M:RekrutTask.Infrastructure.ServiceHelper.DoImport(RekrutTask.Models.Abstract.IFullInfoRepository)">
+            <summary>
+            Preparing objects of type <see cref="T:RekrutTask.ServiceWSDL.Person" /> and invokes method <c>DoImport()</c> from <see cref="N:RekrutTask.ServiceWSDL" /> for each of them.
+            </summary>
+            <param name="repository">Received database data.</param>
+        </member>
+        <member name="T:RekrutTask.Models.Abstract.IAddressRepository">
+            <summary>
+            Interface IAddressRepository. Contains <see cref="T:RekrutTask.Models.Address" /> list, and communication methods.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IAddressRepository.AddressList">
+            <summary>
+            Contains address list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.Address" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Abstract.IAddressRepository.SaveAddress(RekrutTask.Models.Address)">
+            <summary>
+            Saves new address.
+            </summary>
+            <param name="address">Address to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Abstract.IAgreementRepository">
+            <summary>
+            Interface IAgreementRepository. Contains <see cref="T:RekrutTask.Models.Agreement" /> list, and communication methods.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IAgreementRepository.AgreementList">
+            <summary>
+            Contains agreement list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.Agreement" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Abstract.IAgreementRepository.SaveAgreement(RekrutTask.Models.Agreement)">
+            <summary>
+            Saves new agreement.
+            </summary>
+            <param name="agreement">Agreement to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Abstract.IFinancialStateRepository">
+            <summary>
+            Interface IFinancialStateRepository. Contains <see cref="T:RekrutTask.Models.FinancialState" /> list, and communication methods.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IFinancialStateRepository.FinancialStateList">
+            <summary>
+            Contains financial state list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.FinancialState" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Abstract.IFinancialStateRepository.SaveFinancialState(RekrutTask.Models.FinancialState)">
+            <summary>
+            Saves new financial state.
+            </summary>
+            <param name="financialState">Financial state to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Abstract.IFullInfoRepository">
+            <summary>
+            Interface IFullInfoRepository. Contains all other repositories.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IFullInfoRepository.AddressRepository">
+            <summary>
+            Gets the address repository.
+            </summary>
+            <value>Address repository, type of <see cref="T:RekrutTask.Models.Abstract.IAddressRepository" /></value>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IFullInfoRepository.AgreementRepository">
+            <summary>
+            Gets the agreement repository.
+            </summary>
+            <value>Agreement repository, type of <see cref="T:RekrutTask.Models.Abstract.IAgreementRepository" /></value>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IFullInfoRepository.FinancialStateRepository">
+            <summary>
+            Gets the financial state repository.
+            </summary>
+            <value>Financial state repository, type of <see cref="T:RekrutTask.Models.Abstract.IFinancialStateRepository" /></value>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IFullInfoRepository.PersonRepository">
+            <summary>
+            Gets the person repository.
+            </summary>
+            <value>Person repository, type of <see cref="T:RekrutTask.Models.Abstract.IPersonRepository" /></value>
+        </member>
+        <member name="T:RekrutTask.Models.Abstract.IPersonRepository">
+            <summary>
+            Interface IPersonRepository. Contains <see cref="T:RekrutTask.Models.Person" /> list, and communication methods.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Abstract.IPersonRepository.PersonList">
+            <summary>
+            Contains person list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.Person" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Abstract.IPersonRepository.SavePerson(RekrutTask.Models.Person)">
+            <summary>
+            Saves new person.
+            </summary>
+            <param name="person">Person to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Address">
+            <summary>
+            Class Address. Contains properties for compliance to database table Address.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.Models.Address.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Models.Address" /> class.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Address.Id">
+            <summary>
+            Gets or sets address identifier.
+            </summary>
+            <value>Identifier.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.StreetName">
+            <summary>
+            Gets or sets name of the street.
+            </summary>
+            <value>Name of the street.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.StreetNumber">
+            <summary>
+            Gets or sets street number.
+            </summary>
+            <value>Street number.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.FlatNumber">
+            <summary>
+            Gets or sets flat number.
+            </summary>
+            <value>Flat number.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.PostCode">
+            <summary>
+            Gets or sets postal code.
+            </summary>
+            <value>Post code.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.PostOfficeCity">
+            <summary>
+            Gets or sets post office city.
+            </summary>
+            <value>Post office city.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.CorrespondenceStreetName">
+            <summary>
+            Gets or sets name of the correspondence street.
+            </summary>
+            <value>Name of the correspondence street.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.CorrespondenceStreetNumber">
+            <summary>
+            Gets or sets correspondence street number.
+            </summary>
+            <value>Correspondence street number.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.CorrespondenceFlatNumber">
+            <summary>
+            Gets or sets correspondence flat number.
+            </summary>
+            <value>Correspondence flat number.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.CorrespondencePostCode">
+            <summary>
+            Gets or sets correspondence postal code.
+            </summary>
+            <value>Correspondence postal code.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.CorrespondencePostOfficeCity">
+            <summary>
+            Gets or sets correspondence post office city.
+            </summary>
+            <value>Correspondence post office city.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Address.People">
+            <summary>
+            Gets or sets person collection.
+            </summary>
+            <value>People.</value>
+        </member>
+        <member name="T:RekrutTask.Models.Agreement">
+            <summary>
+            Class Agreement. Contains properties for compliance to database table Agreement.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Agreement.Id">
+            <summary>
+            Gets or sets agreement identifier.
+            </summary>
+            <value>Identifier.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Agreement.Number">
+            <summary>
+            Gets or sets number.
+            </summary>
+            <value>Number.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Agreement.PersonId">
+            <summary>
+            Gets or sets person identifier.
+            </summary>
+            <value>Person identifier.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Agreement.FinancialStateId">
+            <summary>
+            Gets or sets financial state identifier.
+            </summary>
+            <value>Financial state identifier.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Agreement.FinancialState">
+            <summary>
+            Gets or sets financial state.
+            </summary>
+            <value>Financial state.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Agreement.Person">
+            <summary>
+            Gets or sets person.
+            </summary>
+            <value>Person.</value>
+        </member>
+        <member name="T:RekrutTask.Models.Concrete.EFAddressRepository">
+            <summary>
+            Class EFAddressRepository. Contains <see cref="T:RekrutTask.Models.Address" /> list, and communication methods.
+            </summary>
+            <seealso cref="T:RekrutTask.Models.Abstract.IAddressRepository" />
+        </member>
+        <member name="F:RekrutTask.Models.Concrete.EFAddressRepository.context">
+            <summary>
+            Database connection element.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Models.Concrete.EFAddressRepository" />.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.EFAddressRepository.AddressList">
+            <summary>
+            Contains address list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.Address" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Concrete.EFAddressRepository.SaveAddress(RekrutTask.Models.Address)">
+            <summary>
+            Saves new address.
+            </summary>
+            <param name="address">Address to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Concrete.EFAgreementRepository">
+            <summary>
+            Class EFAgreementRepository. Contains <see cref="T:RekrutTask.Models.Agreement" /> list, and communication methods.
+            </summary>
+            <seealso cref="T:RekrutTask.Models.Abstract.IAgreementRepository" />
+        </member>
+        <member name="F:RekrutTask.Models.Concrete.EFAgreementRepository.context">
+            <summary>
+            Database connection element.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Models.Concrete.EFAgreementRepository" />.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.EFAgreementRepository.AgreementList">
+            <summary>
+            Contains agreement list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.Agreement" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Concrete.EFAgreementRepository.SaveAgreement(RekrutTask.Models.Agreement)">
+            <summary>
+            Saves new agreement.
+            </summary>
+            <param name="agreement">Agreement to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Concrete.EFFinancialStateRepository">
+            <summary>
+            Class EFFinancialStateRepository. Contains <see cref="T:RekrutTask.Models.FinancialState" /> list, and communication methods.
+            </summary>
+            <seealso cref="T:RekrutTask.Models.Abstract.IFinancialStateRepository" />
+        </member>
+        <member name="F:RekrutTask.Models.Concrete.EFFinancialStateRepository.context">
+            <summary>
+            Database connection element.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Models.Concrete.EFFinancialStateRepository" />.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.EFFinancialStateRepository.FinancialStateList">
+            <summary>
+            Contains financial state list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.FinancialState" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Concrete.EFFinancialStateRepository.SaveFinancialState(RekrutTask.Models.FinancialState)">
+            <summary>
+            Saves new financial state.
+            </summary>
+            <param name="financialState">Financial state to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Concrete.EFPersonRepository">
+            <summary>
+            Class EFPersonRepository. Contains <see cref="T:RekrutTask.Models.Person" /> list, and communication methods.
+            </summary>
+            <seealso cref="T:RekrutTask.Models.Abstract.IPersonRepository" />
+        </member>
+        <member name="F:RekrutTask.Models.Concrete.EFPersonRepository.context">
+            <summary>
+            Database connection element.
+            </summary>
+            <permission cref="T:System.Security.PermissionSet"> Available only inside class <see cref="T:RekrutTask.Models.Concrete.EFPersonRepository" />.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.EFPersonRepository.PersonList">
+            <summary>
+            Contains person list from database;
+            </summary>
+            <value><see cref="T:RekrutTask.Models.Person" /> list, type of <see cref="T:System.Linq.IQueryable`1" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="M:RekrutTask.Models.Concrete.EFPersonRepository.SavePerson(RekrutTask.Models.Person)">
+            <summary>
+            Saves new person.
+            </summary>
+            <param name="person">Person to save.</param>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Concrete.FullInfoRepository">
+            <summary>
+            Class FullInfoRepository. Contains all other repositories.
+            </summary>
+            <seealso cref="T:RekrutTask.Models.Abstract.IFullInfoRepository" />
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.FullInfoRepository.AddressRepository">
+            <summary>
+            Gets the address repository.
+            </summary>
+            <value>Address repository, type of <see cref="T:RekrutTask.Models.Abstract.IAddressRepository" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.FullInfoRepository.AgreementRepository">
+            <summary>
+            Gets the agreement repository.
+            </summary>
+            <value>Agreement repository, type of <see cref="T:RekrutTask.Models.Abstract.IAgreementRepository" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.FullInfoRepository.FinancialStateRepository">
+            <summary>
+            Gets the financial state repository.
+            </summary>
+            <value>Financial state repository, type of <see cref="T:RekrutTask.Models.Abstract.IFinancialStateRepository" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.Concrete.FullInfoRepository.PersonRepository">
+            <summary>
+            Gets the person repository.
+            </summary>
+            <value>Person repository, type of <see cref="T:RekrutTask.Models.Abstract.IPersonRepository" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.FinancialState">
+            <summary>
+            Class FinancialState. Contains properties for compliance to database table FinancialState.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.Models.FinancialState.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Models.FinancialState" /> class.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.Id">
+            <summary>
+            Gets or sets agreement identifier.
+            </summary>
+            <value>Identifier.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.OutstandingLiabilities">
+            <summary>
+            Gets or sets outstanding liabilities.
+            </summary>
+            <value>Outstanding liabilities.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.Interests">
+            <summary>
+            Gets or sets interests.
+            </summary>
+            <value>Interests.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.PenaltyInterests">
+            <summary>
+            Gets or sets penalty interests.
+            </summary>
+            <value>Penalty interests.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.Fees">
+            <summary>
+            Gets or sets fees.
+            </summary>
+            <value>Fees.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.CourtFees">
+            <summary>
+            Gets or sets court fees.
+            </summary>
+            <value>Court fees.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.RepresentationCourtFees">
+            <summary>
+            Gets or sets representation court fees.
+            </summary>
+            <value>Representation court fees.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.VindicationCosts">
+            <summary>
+            Gets or sets vindication costs.
+            </summary>
+            <value>Vindication costs.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.RepresentationVindicationCosts">
+            <summary>
+            Gets or set representation vindication costs.
+            </summary>
+            <value>Representation vindication costs.</value>
+        </member>
+        <member name="P:RekrutTask.Models.FinancialState.Agreements">
+            <summary>
+            Gets or sets agreements collection.
+            </summary>
+            <value>Agreements.</value>
+        </member>
+        <member name="T:RekrutTask.Models.FullInfoViewModel">
+            <summary>
+            Class FullInfoViewModel. Container for view model parameters.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.Models.FullInfoViewModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Models.FullInfoViewModel" /> class.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.FullInfoViewModel.PersonParamValues">
+            <summary>
+            List of values of properties for <see cref="T:RekrutTask.Models.Person" /> and <see cref="T:RekrutTask.Models.Address" />
+            </summary>
+            <value>List of values, type of <see cref="!:IList&lt;string&gt;" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.FullInfoViewModel.PersonParamNames">
+            <summary>
+            List of names of properties for <see cref="T:RekrutTask.Models.Person" /> and <see cref="T:RekrutTask.Models.Address" />
+            </summary>
+            <value>List of names, type of <see cref="!:IList&lt;string&gt;" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.FullInfoViewModel.FinancialStateParamValues">
+            <summary>
+            List of values of properties for <see cref="T:RekrutTask.Models.FinancialState" />
+            </summary>
+            <value>List of values, type of <see cref="!:IList&lt;string&gt;" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.FullInfoViewModel.FinancialStateParamNames">
+            <summary>
+            List of names of properties for <see cref="T:RekrutTask.Models.FinancialState" />
+            </summary>
+            <value>List of names, type of <see cref="!:IList&lt;string&gt;" /></value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.RekrutDBEntities">
+            <remark>
+            Database context class.
+            </remark>
+            <seealso cref="T:System.Data.Entity.DbContext" />
+        </member>
+        <member name="M:RekrutTask.Models.RekrutDBEntities.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Models.RekrutDBEntities"/> class.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.RekrutDBEntities.Addresses">
+            <summary>
+            Gets or writes to database Address table.
+            </summary>
+            <value>Addresses.</value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.RekrutDBEntities.Agreements">
+            <summary>
+            Gets or writes to database Agreement table.
+            </summary>
+            <value>Agreements.</value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.RekrutDBEntities.FinancialStates">
+            <summary>
+            Gets or writes to database FinancialStates table.
+            </summary>
+            <value>Agreements.</value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="P:RekrutTask.Models.RekrutDBEntities.People">
+            <summary>
+            Gets or writes to database Person table.
+            </summary>
+            <value>People.</value>
+            <permission cref="T:System.Security.PermissionSet"> Accessible from the outside.</permission>
+        </member>
+        <member name="T:RekrutTask.Models.Person">
+            <summary>
+            Class Person. Contains properties for compliance to database table Person.
+            </summary>
+        </member>
+        <member name="M:RekrutTask.Models.Person.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RekrutTask.Models.Person" /> class.
+            </summary>
+        </member>
+        <member name="P:RekrutTask.Models.Person.Id">
+            <summary>
+            Gets or sets identifier.
+            </summary>
+            <value>Identifier.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.FirstName">
+            <summary>
+            Gets or sets first name.
+            </summary>
+            <value>First name.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.SecondName">
+            <summary>
+            Gets or sets second name.
+            </summary>
+            <value>Second name.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.Surname">
+            <summary>
+            Gets or sets surname.
+            </summary>
+            <value>Surname.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.NationalIdentificationNumber">
+            <summary>
+            Gets or sets national identification number.
+            </summary>
+            <value>National identification number.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.AddressId">
+            <summary>
+            Gets or sets address identifier.
+            </summary>
+            <value>Address identifier.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.PhoneNumber">
+            <summary>
+            Gets or sets phone number.
+            </summary>
+            <value>Phone number.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.PhoneNumber2">
+            <summary>
+            Gets or sets phone number 2.
+            </summary>
+            <value>Phone number 2.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.Address">
+            <summary>
+            Gets or sets address.
+            </summary>
+            <value>Address.</value>
+        </member>
+        <member name="P:RekrutTask.Models.Person.Agreements">
+            <summary>
+            Gets or sets agreements collection.
+            </summary>
+            <value>Agreements.</value>
+        </member>
+    </members>
+</doc>

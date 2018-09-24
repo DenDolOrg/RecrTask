@@ -1,0 +1,182 @@
+body {
+
+    background-color: #181818;
+    color: white;
+}
+
+#container {
+    width: 70%;
+    margin: auto;
+    border-style:: solid;
+    border-width:: 1px;
+    border-color:: gray;
+}
+
+#header {
+    height: 80px;
+    position: relative;
+    background-color: #181818;
+    margin-bottom: 0;
+    padding-left: 40px;
+    border-bottom-color: black;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}
+
+#header h1 {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    margin: 0;
+    }
+
+#body {
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-bottom: 30px;
+    margin-top: 0;
+    background-color: #323232;
+    min-height: 500px;
+}
+
+h2 {
+    margin: 0;
+}
+
+#chooseHr {
+    width: 50%;
+    margin-left: 0;
+    margin-bottom: 20px;
+}
+.bodyBtn{
+    font-size: 12pt;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    width: attr(data-width) * 2;
+    color: white;
+    background-color: #323232;
+}
+#browseBtn{
+    font-size: 12pt;
+    height: 40px;
+}
+
+#checkImg {
+    float: left;
+    margin-right: 10px;
+}
+
+#uploadBtn {
+    visibility: hidden;
+}
+
+.personFrame {
+    position: relative;
+}
+
+.fullInfoBtn {
+    position: absolute;
+    height: 30px;
+    top: 45%;
+    margin-left: 170px;
+}
+
+.personListHr {
+    width: 60%;
+    margin-left: 0;
+}
+
+#headerMenu a {
+
+    font-size: 15pt;
+    text-align: center;
+    color: white;
+    float: left;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    width: 120px;
+    transform: translate(0,39px);
+    background: rgba(0,0,0,0);
+}
+
+#headerMenu a:hover {
+    background: rgba(255,255,255,0.1);
+    text-decoration: underline;
+    }
+
+#headerMenu a:visited {
+    color: white;
+}
+
+#headerMenu {
+    margin-left: 30%;
+    height: 80px;
+}
+
+#errorHeader {
+    text-decoration: underline;
+}
+
+#errorTable {
+    text-align: left;
+    
+    border-collapse:collapse;
+    display: inline;
+    margin-top: 30px;
+    margin-left: 10%;
+    margin-right: 10px;
+}
+
+#errorTable td, #errorTable th {
+    height: 40px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    padding-top: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#errorTable  th{
+    text-align: center;
+    font-size: 18pt;
+}
+
+form[action = "/Person/PersonList"]{
+    display: inline;
+    margin-left: 20px;
+}
+
+.fullInfoTbl th{
+    text-align: right;
+}
+
+.fullInfoTbl td, .fullInfoTbl th{
+    font-size: 13pt;
+    padding-top: 10px;
+    padding-right: 20px;
+}
+
+.fullInfoTbl{
+    margin-bottom: 40px;
+}
+.backLink{
+    text-decoration: none;
+    font-size: 14pt;
+    color: white;
+}
+
+.backLink:visited{
+    text-decoration: none;
+}
+
+.backLink:hover{
+    text-decoration: underline;
+}
+
+h1 a{
+    text-decoration:none;
+    color: #828282;
+}

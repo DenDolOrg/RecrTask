@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище RekrutDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StreetName" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="StreetNumber" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="FlatNumber" Type="varchar" MaxLength="300" />
+    <Property Name="PostCode" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="PostOfficeCity" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="CorrespondenceStreetName" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="CorrespondenceStreetNumber" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="CorrespondenceFlatNumber" Type="varchar" MaxLength="300" />
+    <Property Name="CorrespondencePostCode" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="CorrespondencePostOfficeCity" Type="varchar" MaxLength="300" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Agreement">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="varchar" MaxLength="3000" />
+    <Property Name="PersonId" Type="int" />
+    <Property Name="FinancialStateId" Type="int" />
+  </EntityType>
+  <EntityType Name="FinancialState">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OutstandingLiabilities" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Interests" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="PenaltyInterests" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Fees" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="CourtFees" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="RepresentationCourtFees" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="VindicationCosts" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="RepresentationVindicationCosts" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="SecondName" Type="varchar" MaxLength="300" />
+    <Property Name="Surname" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="NationalIdentificationNumber" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="AddressId" Type="int" Nullable="false" />
+    <Property Name="PhoneNumber" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="PhoneNumber2" Type="varchar" MaxLength="300" />
+  </EntityType>
+  <Association Name="constr_fk_Agreement_FinancialState">
+    <End Role="FinancialState" Type="Self.FinancialState" Multiplicity="0..1" />
+    <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FinancialState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Agreement">
+        <PropertyRef Name="FinancialStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="constr_fk_Agreement_Person">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Agreement">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="constr_fk_Person_Address">
+    <End Role="Address" Type="Self.Address" Multiplicity="1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="AddressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище RekrutDBModelContainer">
+    <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FinancialState" EntityType="Self.FinancialState" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="constr_fk_Agreement_FinancialState" Association="Self.constr_fk_Agreement_FinancialState">
+      <End Role="FinancialState" EntitySet="FinancialState" />
+      <End Role="Agreement" EntitySet="Agreement" />
+    </AssociationSet>
+    <AssociationSet Name="constr_fk_Agreement_Person" Association="Self.constr_fk_Agreement_Person">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Agreement" EntitySet="Agreement" />
+    </AssociationSet>
+    <AssociationSet Name="constr_fk_Person_Address" Association="Self.constr_fk_Person_Address">
+      <End Role="Address" EntitySet="Address" />
+      <End Role="Person" EntitySet="Person" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

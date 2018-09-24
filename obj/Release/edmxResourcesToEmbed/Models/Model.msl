@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище RekrutDBModelContainer" CdmEntityContainer="RekrutDBEntities">
+    <EntitySetMapping Name="Addresses">
+      <EntityTypeMapping TypeName="RekrutDBModel.Address">
+        <MappingFragment StoreEntitySet="Address">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StreetName" ColumnName="StreetName" />
+          <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
+          <ScalarProperty Name="FlatNumber" ColumnName="FlatNumber" />
+          <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+          <ScalarProperty Name="PostOfficeCity" ColumnName="PostOfficeCity" />
+          <ScalarProperty Name="CorrespondenceStreetName" ColumnName="CorrespondenceStreetName" />
+          <ScalarProperty Name="CorrespondenceStreetNumber" ColumnName="CorrespondenceStreetNumber" />
+          <ScalarProperty Name="CorrespondenceFlatNumber" ColumnName="CorrespondenceFlatNumber" />
+          <ScalarProperty Name="CorrespondencePostCode" ColumnName="CorrespondencePostCode" />
+          <ScalarProperty Name="CorrespondencePostOfficeCity" ColumnName="CorrespondencePostOfficeCity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Agreements">
+      <EntityTypeMapping TypeName="RekrutDBModel.Agreement">
+        <MappingFragment StoreEntitySet="Agreement">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+          <ScalarProperty Name="FinancialStateId" ColumnName="FinancialStateId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FinancialStates">
+      <EntityTypeMapping TypeName="RekrutDBModel.FinancialState">
+        <MappingFragment StoreEntitySet="FinancialState">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OutstandingLiabilities" ColumnName="OutstandingLiabilities" />
+          <ScalarProperty Name="Interests" ColumnName="Interests" />
+          <ScalarProperty Name="PenaltyInterests" ColumnName="PenaltyInterests" />
+          <ScalarProperty Name="Fees" ColumnName="Fees" />
+          <ScalarProperty Name="CourtFees" ColumnName="CourtFees" />
+          <ScalarProperty Name="RepresentationCourtFees" ColumnName="RepresentationCourtFees" />
+          <ScalarProperty Name="VindicationCosts" ColumnName="VindicationCosts" />
+          <ScalarProperty Name="RepresentationVindicationCosts" ColumnName="RepresentationVindicationCosts" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="People">
+      <EntityTypeMapping TypeName="RekrutDBModel.Person">
+        <MappingFragment StoreEntitySet="Person">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="NationalIdentificationNumber" ColumnName="NationalIdentificationNumber" />
+          <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumber2" ColumnName="PhoneNumber2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
